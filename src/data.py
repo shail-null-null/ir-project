@@ -54,17 +54,17 @@ def filter_queries(queries,qrels):
 
 
 if __name__ == "__main__":
-    scifact_corpus = load_corpus(r"data\scifact\corpus.jsonl")
+    scifact_corpus = load_corpus(r"data/scifact/corpus.jsonl")
     print(len(scifact_corpus))
-    nfcorpus = load_corpus(r"data\nfcorpus\corpus.jsonl")
+    nfcorpus = load_corpus(r"data/nfcorpus/corpus.jsonl")
     print(len(nfcorpus))
-    scifact_queries = load_queries(r"data\scifact\queries.jsonl")
+    scifact_queries = load_queries(r"data/scifact/queries.jsonl")
     print(len(scifact_queries))
-    nfcorpus_queries = load_queries(r"data\nfcorpus\queries.jsonl")
+    nfcorpus_queries = load_queries(r"data/nfcorpus/queries.jsonl")
     print(len(nfcorpus_queries))
-    scifact_qrels = load_qrels(r"data\scifact\qrels\test.tsv")
+    scifact_qrels = load_qrels(r"data/scifact/qrels/test.tsv")
     print(len(scifact_qrels))
-    nfcorpus_qrels = load_qrels(r"data\nfcorpus\qrels\test.tsv")
+    nfcorpus_qrels = load_qrels(r"data/nfcorpus/qrels/test.tsv")
     print(len(nfcorpus_qrels))
     filtered_scifact_queries = filter_queries(scifact_queries,scifact_qrels)
     print(len(filtered_scifact_queries))
