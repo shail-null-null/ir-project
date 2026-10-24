@@ -1,5 +1,7 @@
 import pytest
+import pytrec_eval
 from src.metrics import precision_at_k, average_precision, ndcg_at_k, evaluate
+from collections import Counter
 
 # Toy collection (values hand-computed in Microtask 6)
 RANKED_Q1 = ["d3", "d2", "d1", "d4", "d6"]
@@ -57,7 +59,6 @@ def test_no_relevant_docs_returns_zero():            # bugs 4 and 7
     assert average_precision(["a", "b"], {"a": 0}) == 0.0
     assert ndcg_at_k(["a", "b"], {"a": 0}, 2) == 0.0
 
-
 # --- evaluate(): missing query and MAP ---
 def test_evaluate_missing_query_scores_zero():
     run = {"q1": {"d3": 5.0, "d2": 4.0, "d1": 3.0, "d4": 2.0, "d6": 1.0},
@@ -70,3 +71,20 @@ def test_evaluate_missing_query_scores_zero():
     assert results["q1"]["NDCG@3"] == approx(0.639)
     mean_ap = sum(r["AP"] for r in results.values()) / len(results)
     assert mean_ap == approx(0.335)
+
+def test_matches_pytrec_eval():
+    NAME_MAP = {"P@3": "P_3", "AP": "map", "NDCG@3": "ndcg_cut_3"}
+    run = {"q1": {"d3": 5.0, "d2": 4.0, "d1": 3.0, "d4": 2.0, "d6": 1.0},
+           "q2": {"d7": 3.0, "d5": 2.0, "d9": 1.0}}
+    qrels = {"q1": RELS_Q1, "q2": RELS_Q2, "q3": {"d2": 1}}
+
+    theirs = pytrec_eval.RelevanceEvaluator(qrels, {"map", "ndcg_cut.3", "P.3"}).evaluate(run)
+    mine = evaluate(run, qrels, 3)
+
+    # pytrec_eval only scores queries that appear in the run
+    assert set(theirs) == {"q1", "q2"}
+
+    for qid in theirs:
+        for my_name, their_name in NAME_MAP.items():
+            assert mine[qid][my_name] == pytest.approx(theirs[qid][their_name], abs=1e-6), \
+                f"{qid} {my_name}: mine={mine[qid][my_name]}, pytrec={theirs[qid][their_name]}"
