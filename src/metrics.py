@@ -62,6 +62,30 @@ def evaluate(run,qrels,k):
             scores[key] = {f"P@3":0,"AP": 0,f"NDCG@3":0}
     return scores
 
+def recall_at_k(ranked,rels,k):
+    retrieved = 0
+    for i in ranked[:k]:
+        if rels.get(i,0)>=1:
+            retrieved = retrieved + 1
+    relevant = 0
+    for i in rels:
+        if rels[i]>=1:
+            relevant = relevant + 1
+    if relevant==0:
+        return 0
+    recall = retrieved/relevant
+    return recall
+
+def judged_at_k(ranked,rels,k):
+    judged = 0
+    for i in ranked[:k]:
+        if i in rels.keys():
+            judged = judged + 1
+    docs = min(k,len(ranked))
+    if docs == 0:
+        return 0
+    j_at_k = judged/docs
+    return j_at_k
 
 if __name__  == "__main__":
     ranked_q1 = ["d3", "d2", "d1", "d4", "d6"];  rels_q1 = {"d1": 2, "d3": 1, "d6": 1}

@@ -1,6 +1,7 @@
 import pytest
 import pytrec_eval
 from src.metrics import precision_at_k, average_precision, ndcg_at_k, evaluate
+from src.metrics import recall_at_k, judged_at_k
 from collections import Counter
 
 # Toy collection (values hand-computed in Microtask 6)
@@ -58,6 +59,35 @@ def test_ndcg_never_exceeds_one():                   # bug 6
 def test_no_relevant_docs_returns_zero():            # bugs 4 and 7
     assert average_precision(["a", "b"], {"a": 0}) == 0.0
     assert ndcg_at_k(["a", "b"], {"a": 0}, 2) == 0.0
+
+def test_q1_recall_at_3():
+    assert recall_at_k(RANKED_Q1, RELS_Q1, 3) == approx(0.667)
+
+def test_q1_recall_at_5():
+    assert recall_at_k(RANKED_Q1, RELS_Q1, 5) == approx(1.0)
+
+def test_q1_judged_at_3():
+    assert judged_at_k(RANKED_Q1, RELS_Q1, 3) == approx(0.667)
+
+def test_grade_zero_counts_as_judged_but_not_relevant():
+    with_zero = {**RELS_Q1, "d2": 0}
+    assert judged_at_k(RANKED_Q1, with_zero, 3) == approx(1.0)
+    assert recall_at_k(RANKED_Q1, with_zero, 3) == approx(0.667)
+
+def test_q2_recall_counts_unretrieved_relevant_doc():
+    assert recall_at_k(RANKED_Q2, RELS_Q2, 3) == approx(0.5)
+
+def test_q2_judged_at_3():
+    assert judged_at_k(RANKED_Q2, RELS_Q2, 3) == approx(0.333)
+
+def test_recall_judged_k_larger_than_ranked_list():
+    assert recall_at_k(RANKED_Q2, RELS_Q2, 5) == approx(0.5)
+    assert judged_at_k(RANKED_Q2, RELS_Q2, 5) == approx(0.333)
+
+def test_empty_ranking_and_no_relevant_docs():
+    assert judged_at_k([], RELS_Q1, 10) == 0
+    assert recall_at_k([], RELS_Q1, 10) == 0
+    assert recall_at_k(["a", "b"], {"a": 0}, 2) == 0
 
 # --- evaluate(): missing query and MAP ---
 def test_evaluate_missing_query_scores_zero():
