@@ -14,7 +14,7 @@ from src.bm25 import BM25
 from src.data import filter_queries, load_corpus, load_qrels, load_queries
 from src.metrics import average_precision, ndcg_at_k, precision_at_k
 
-DATASETS = ["scifact", "nfcorpus"]
+DATASETS = ["scifact", "nfcorpus", "scidocs"]
 DEPTH = 1000  # documents retrieved per query
 METRICS = ["NDCG@5", "NDCG@10", "MAP", "P@10", "R@100", "Judged@10"]
 
