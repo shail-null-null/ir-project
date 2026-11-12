@@ -106,3 +106,31 @@ G-to-A → `g` ("to" and "a" are stopwords).
 - **Queries identified by:** all test queries of each dataset.
 - **Proven wrong if:** H4a fails if Qwen3 NDCG@10 ≥ BM25 on SciFact; H4b fails if Qwen3
   NDCG@10 ≤ BM25 on NFCorpus. The two parts are judged separately.
+
+### H5. Context enrichment of brand-name queries (ERROR-DRIVEN)
+
+*Designed after seeing the H1 result (dense matched brand names by spelling, e.g. Splenda ->
+Spirulina). These queries are a targeted follow-up, not an unbiased test, and are reported
+separately from H1-H4. Predictions written before any run on these variants.*
+
+**Queries:** "Zoloft antidepressant", "Mevacor cholesterol drug", "Splenda artificial sweetener"
+(NFCorpus PLAIN-2408, PLAIN-1621, PLAIN-2134; labels inherited from the original queries).
+Baseline: BM25 and dense both score NDCG@10 = 0 on all three originals.
+
+- **H5a (dense):** dense NDCG@10 > 0 on **at least 2 of the 3**.
+  *Because:* the descriptor gives the model words it knows, which should outweigh the
+  misleading spelling of the unknown brand name for most, but not necessarily all, queries.
+  *Proven wrong if:* dense NDCG@10 > 0 on fewer than 2.
+
+- **H5b (BM25):** BM25 NDCG@10 > 0 on every query whose descriptor words are in the NFCorpus
+  vocabulary, and = 0 on any query whose descriptor words are all absent.
+  *Because:* the brand name contributes nothing (it is not in the vocabulary), so for BM25 the
+  query is a plain topic search on the descriptor alone.
+  *Vocabulary check (fill in from check_descriptors.py before committing):*
+  antidepressant: in (df=21) | cholesterol: in (df=292) | drug: in (df=169) | artificial: in (df=20) | sweetener: in (df=14)
+  *Proven wrong if:* any query contradicts the rule above.
+
+- **H5c (comparison):** dense gains **more** than BM25 in mean NDCG@10 over the three queries.
+  *Because:* dense uses the brand name and the descriptor together; BM25 can use only the
+  descriptor.
+  *Proven wrong if:* BM25's mean gain >= dense's mean gain.

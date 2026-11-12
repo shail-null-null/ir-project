@@ -79,7 +79,8 @@
       "source_qid": "784",
       "source_text": "MicroRNA is involved in the regulation of Neural Stem Cell (NSC) differentiation and proliferation dynamic homeostasis",
       "change": "rewrite in lay language, same meaning",
-      "variant": "Tiny RNA molecules help control the balance between multiplying and becoming specialized cells in the cells that grow into brain and nerve cells"
+      "variant": "Tiny RNA molecules help control the balance between multiplying and becoming specialized cells in the cells that grow into brain and nerve cells",
+      "note": "RNA kept: no everyday equivalent"
     },
     {
       "category": "lay_rewrite",
@@ -87,7 +88,8 @@
       "source_qid": "532",
       "source_text": "Hyperfibrinogenemia decreases rates of femoropopliteal bypass thrombosis.",
       "change": "rewrite in lay language, same meaning",
-      "variant": "High blood levels of a certain clotting protein decrease the rate of blood clots forming in a surgical graft that reroutes blood around a blocked artery in the thigh and knee"
+      "variant": "High blood levels of a certain clotting protein decrease the rate of blood clots forming in a surgical graft that reroutes blood around a blocked artery in the thigh and knee",
+      "note": ""
     },
     {
       "category": "lay_rewrite",
@@ -95,7 +97,8 @@
       "source_qid": "171",
       "source_text": "Basophils counteract disease development in patients with systemic lupus erythematosus (SLE).",
       "change": "rewrite in lay language, same meaning",
-      "variant": "A kind of white blood cell holds back the disease in people with lupus"
+      "variant": "A kind of white blood cell holds back the disease in people with lupus",
+      "note": ""
     },
     {
       "category": "technical_rewrite",
@@ -103,7 +106,8 @@
       "source_qid": "PLAIN-1214",
       "source_text": "Fosamax",
       "change": "replace the brand name with the generic / technical name",
-      "variant": "alendronate"
+      "variant": "alendronate",
+      "evidence": "Fosamax = alendronate. Mayo Clinic, alendronate (oral route): US brand name Fosamax. https://www.mayoclinic.org/es/drugs-supplements/alendronate-oral-route/description/drg-20061571"
     },
     {
       "category": "technical_rewrite",
@@ -111,7 +115,38 @@
       "source_qid": "PLAIN-520",
       "source_text": "Alli",
       "change": "replace the brand name with the generic / technical name",
-      "variant": "orlistat"
+      "variant": "orlistat",
+      "evidence": "Alli = orlistat 60 mg (OTC). FDA Drug Safety Communication on alli (orlistat). https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney"
+    },
+    {
+      "category": "context_enrichment",
+      "dataset": "nfcorpus",
+      "source_qid": "PLAIN-2408",
+      "source_text": "Zoloft",
+      "change": "add one plain descriptor of what the product is",
+      "variant": "Zoloft antidepressant",
+      "error_driven": true,
+      "evidence": "Zoloft = sertraline, an SSRI antidepressant. MedlinePlus sertraline (a697048), brand name Zoloft. https://webarchive.library.unt.edu/eot2008/20090509174755/http:/www.nlm.nih.gov/medlineplus/druginfo/meds/a697048.html"
+    },
+    {
+      "category": "context_enrichment",
+      "dataset": "nfcorpus",
+      "source_qid": "PLAIN-1621",
+      "source_text": "Mevacor",
+      "change": "add one plain descriptor of what the product is",
+      "variant": "Mevacor cholesterol drug",
+      "error_driven": true,
+      "evidence": "Mevacor = lovastatin, a cholesterol-lowering statin. MedlinePlus lovastatin (a688006), brand names include Mevacor. https://www.medlineplus.gov/druginfo/meds/a688006.html"
+    },
+    {
+      "category": "context_enrichment",
+      "dataset": "nfcorpus",
+      "source_qid": "PLAIN-2134",
+      "source_text": "Splenda",
+      "change": "add one plain descriptor of what the product is",
+      "variant": "Splenda artificial sweetener",
+      "error_driven": true,
+      "evidence": "Splenda = sucralose, an artificial sweetener. https://www.naturalproductsinsider.com/labeling/sweet-ruling-for-sucralose"
     }
   ]
 }
