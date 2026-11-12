@@ -1,0 +1,72 @@
+{
+  "note": "Written before any system was run on these queries. Judged on NFCorpus by pooling the top 10 of BM25 and of dense, shown to the judge shuffled and without system or rank. Grades: 2 = clearly relevant, 1 = partly relevant, 0 = not relevant. Queries, criteria and judgments drafted with an LLM assistant (Claude) and reviewed by the student.",
+  "queries": [
+    {
+      "id": "NF-NEG-01",
+      "category": "negation_changes_relevance",
+      "text": "lowering cholesterol without medication",
+      "criterion": {
+        "2": "The document's main focus is reducing blood cholesterol (total or LDL) through non-drug means: diet, specific foods or nutrients, fibre, exercise or other lifestyle change.",
+        "1": "Non-drug cholesterol reduction is discussed but is not the main focus, or diet is compared with drugs and the dietary effect is reported.",
+        "0": "Mainly about cholesterol-lowering drugs (statins etc.), or about cholesterol without any lowering intervention."
+      }
+    },
+    {
+      "id": "NF-NEG-02",
+      "category": "negation_changes_relevance",
+      "text": "getting calcium without dairy",
+      "criterion": {
+        "2": "About calcium intake, absorption or bioavailability from non-dairy foods (vegetables, legumes, fortified plant foods, etc.).",
+        "1": "About calcium intake in general, or calcium supplements, where non-dairy sources are at least part of the discussion.",
+        "0": "Mainly about dairy as a calcium source, or calcium unrelated to dietary sources."
+      }
+    },
+    {
+      "id": "NF-HOM-01",
+      "category": "homonym",
+      "text": "plaque buildup",
+      "intended_sense": "arterial (atherosclerotic) plaque",
+      "criterion": {
+        "2": "Main focus is plaque in blood vessels: atherosclerosis, its formation, progression or reversal.",
+        "1": "Arterial plaque or atherosclerosis is discussed, but as a secondary topic.",
+        "0": "Dental plaque, or any other sense of 'plaque' (e.g. amyloid plaques in the brain), or no plaque at all."
+      }
+    },
+    {
+      "id": "NF-HOM-02",
+      "category": "homonym",
+      "text": "cold prevention",
+      "intended_sense": "the common cold (viral upper respiratory infection)",
+      "criterion": {
+        "2": "About preventing or reducing the risk of the common cold or upper respiratory tract infections.",
+        "1": "About the common cold or respiratory infections, but treatment or duration rather than prevention.",
+        "0": "Cold temperature, cold exposure, cold storage, or any other sense of 'cold'."
+      }
+    },
+    {
+      "id": "NF-NUM-01",
+      "category": "numerical_constraint",
+      "text": "vitamin D supplementation above 4000 IU daily",
+      "criterion": {
+        "2": "Reports vitamin D doses explicitly above 4,000 IU per day (or an equivalent weekly or monthly dose above that daily average).",
+        "1": "Discusses high-dose vitamin D or upper intake limits without a stated dose clearly above 4,000 IU per day.",
+        "0": "Only doses of 4,000 IU per day or less, or no vitamin D dosing at all."
+      }
+    },
+    {
+      "id": "NF-TMP-01",
+      "category": "temporal_constraint",
+      "text": "fasting longer than 24 hours",
+      "criterion": {
+        "2": "Studies or discusses fasting periods explicitly longer than 24 hours (multi-day or prolonged fasting).",
+        "1": "Mentions prolonged fasting without a stated duration, or multi-day fasting only as a side topic.",
+        "0": "Only fasting of 24 hours or less (overnight, intermittent, time-restricted eating), calorie restriction without fasting, or no fasting."
+      }
+    }
+  ],
+  "predictions": {
+    "negation": "Neither system enforces 'without': each system's top 10 contains at least 3 documents graded 0 for being mainly about the excluded topic (medication / dairy).",
+    "homonym": "Dense ranks fewer wrong-sense documents (grade 0 because of the other meaning) in its top 10 than BM25, on both queries.",
+    "constraints": "Neither system enforces the number or duration: fewer than half of each system's top 10 is graded 2 on both NF-NUM-01 and NF-TMP-01."
+  }
+}
