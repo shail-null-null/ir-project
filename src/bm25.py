@@ -1,14 +1,3 @@
-"""BM25 retrieval, implemented from scratch.
-
-Lucene-style BM25. Differs from BEIR's Anserini baseline (k1=0.9, b=0.4, separate
-title/body fields, Anserini's analyzer) — see the status report for the measured effect.
-Configuration:
-  - document text = title + " " + text
-  - lowercase, alphanumeric tokens, Lucene's default English stopword list, no stemming
-  - k1 = 1.2, b = 0.75 (Lucene / Elasticsearch defaults)
-  - Lucene IDF: ln(1 + (N - df + 0.5) / (df + 0.5)), always positive
-  - each distinct query term counted once
-"""
 import heapq
 import math
 import re
@@ -51,19 +40,16 @@ class BM25:
         n_docs = len(self.doc_len)
         self.avgdl = sum(self.doc_len.values()) / n_docs
 
-        # Lucene IDF: never negative, unlike the classic RSJ form
+        # Lucene IDF
         self.idf = {
             term: math.log(1 + (n_docs - len(plist) + 0.5) / (len(plist) + 0.5))
             for term, plist in self.postings.items()
         }
 
-        # The length-normalisation part of the denominator depends only on the
-        # document, so compute it once per document instead of once per posting.
         k1, b, avgdl = self.k1, self.b, self.avgdl
         self.norm = {d: k1 * (1 - b + b * dl / avgdl) for d, dl in self.doc_len.items()}
 
     def score_query(self, query: str) -> dict[str, float]:
-        """Term-at-a-time scoring: only documents containing a query term are touched."""
         scores: dict[str, float] = defaultdict(float)
         k1 = self.k1
         for term in set(tokenize(query)):
@@ -76,7 +62,6 @@ class BM25:
         return scores
 
     def search(self, queries: dict[str, str], k: int = 1000) -> dict[str, dict[str, float]]:
-        """Return a run: {qid: {doc_id: score}} with the top-k documents per query."""
         run: dict[str, dict[str, float]] = {}
         for qid, text in queries.items():
             scores = self.score_query(text)
