@@ -1,0 +1,18 @@
+{
+  "NF-NEG-01": {
+    "label": "mainly about cholesterol-lowering drugs (the excluded topic)",
+    "docs": ["MED-4830", "MED-5266"]
+  },
+  "NF-NEG-02": {
+    "label": "mainly about dairy (the excluded topic)",
+    "docs": ["MED-1226", "MED-5194", "MED-5192", "MED-2771", "MED-3087", "MED-4898"]
+  },
+  "NF-HOM-01": {
+    "label": "wrong sense: dental plaque",
+    "docs": ["MED-2094", "MED-3640", "MED-3641", "MED-3639", "MED-2091"]
+  },
+  "NF-HOM-02": {
+    "label": "wrong sense: cold temperature / exposure / storage",
+    "docs": ["MED-5321", "MED-5318", "MED-4264", "MED-2074", "MED-4859", "MED-4357", "MED-3171", "MED-1568", "MED-2848"]
+  }
+}
